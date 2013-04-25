@@ -11,6 +11,7 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+    <link href='http://fonts.googleapis.com/css?family=Oswald&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/default.css" id="theme">
 
@@ -78,14 +79,16 @@
 				</section>
 
 				<section>
-          <h2>Jane liked your…</h2> 
-          <h2 class="fragment">album with 4 photos…</h2>
-          <h2 class="fragment">and shared 3 of them…</h2>
-          <h2 class="fragment">to her 357 followers…</h2>
-          <h2 class="fragment">in 4 countries…</h2>
-          <h2 class="fragment">at 9.23 AM yesterday…</h2>
-          <h2 class="fragment">(on April 24th, 2013)…</h2>
-          <h2 class="fragment">Have a good day!</h2>
+          <h2>Jane liked
+            <span class="fragment roll-in">your album with 4 photos</span>
+            <span class="fragment roll-in">and shared 3 of them</span>
+            <span class="fragment roll-in">to her 357 followers</span>
+            <span class="fragment roll-in">in 4 countries</span>
+            <span class="fragment roll-in">at 9.23 AM yesterday</span>
+            <span class="fragment roll-in">(on April 24th, 2013).</span>
+            <span class="fragment roll-in">Have a good day!</span>
+          </h2>
+          <h3 class="fragment roll-in">(You have 3 more unread notifications)</h3>
 				</section>
 
 				<section>
@@ -110,60 +113,63 @@
 				<section>
           <h2>New paradigm</h2>
           <p class="fragment">client-side</p>
+          <p class="fragment">isolated</p>
+          <p class="fragment">grammar-agnostic</p>
           <p class="fragment">responsive</p>
-          <p class="fragment">key-value pairs</p>
-          <p class="fragment">plurals if you're lucky</p>
+          <p class="fragment">based on a social contract</p>
 				</section>
 
 				<section>
-					<h2>Pretty Code</h2>
-					<pre><code contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) ) {
-        node.className += ' roll';
-      }
-    };
-  }
-}
+					<h2>What L20n looks like</h2>
+					<pre class="fragment"><code contenteditable>
+&lt;h2 l10n-id="hello">&lt;/h2>
+					</code></pre>
+					<pre class="fragment"><code class="php" contenteditable>
+&lt;hello "Hello, World!">
+					</code></pre>
+					<pre class="fragment"><code class="php" contenteditable>
+&lt;hello "Witaj świecie!">
+					</code></pre>
+					<pre class="fragment"><code contenteditable>
+document.l10n.get('hello');
 					</code></pre>
 				</section>
 
-				<section>
-					<section>
-						<h2>Fragmented Views</h2>
-						<p>Hit the next arrow...</p>
-						<p class="fragment">... to step through ...</p>
-						<ol>
-							<li class="fragment"><code>any type</code></li>
-							<li class="fragment"><em>of view</em></li>
-							<li class="fragment"><strong>fragments</strong></li>
-						</ol>
+        <section>
+					<h2 data-l10n-id="hello">Witaj świecie!</h2>
+        </section>
 
-						<aside class="notes">
-							This slide has fragments which are also stepped through in the notes window.
-						</aside>
-					</section>
-					<section>
-						<h2>Fragment Styles</h2>
-						<p>There's a few styles of fragments, like:</p>
-						<p class="fragment grow">grow</p>
-						<p class="fragment shrink">shrink</p>
-						<p class="fragment roll-in">roll-in</p>
-						<p class="fragment fade-out">fade-out</p>
-						<p class="fragment highlight-red">highlight-red</p>
-						<p class="fragment highlight-green">highlight-green</p>
-						<p class="fragment highlight-blue">highlight-blue</p>
-					</section>
+				<section>
+					<h2>Language isolation</h2>
+					<pre class="fragment"><code class="php" contenteditable>
+&lt;new {
+  zero: "No new notifications",
+  one: "One new notifications",
+  other:  "{{ $count }} new notifications"
+}>
+					</code></pre>
+
+					<pre class="fragment"><code class="php" contenteditable>
+&lt;new {
+  zero: "Brak nowych powiadomień",
+  one: "Jedno nowe powiadomienie",
+  few: "{{ $count }} nowe powiadomienia",
+  many:  "{{ $count }} nowych powiadomień",
+  other: "{{ $count }} nowego powiadomienia"
+}>
+					</code></pre>
 				</section>
 
-
+        <section>
+          <h2>Asynchronous and responsive</h2>
+          <pre><code class="javascript" contenteditable>
+document.l10n.localize(['hello', 'unread'], function(l10n) {
+  var node = document.querySelector('[l10n-id=hello]');
+  node.textConent = l10n.entities.hello;
+  node.classList.remove('hidden');
+});
+					</code></pre>
+        </section>
 
 			</div>
 
@@ -182,19 +188,14 @@ function linkify( selector ) {
 				history: true,
 				center: true,
 
-				theme: 'night',
+				theme: 'default',
 				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
-					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
 
